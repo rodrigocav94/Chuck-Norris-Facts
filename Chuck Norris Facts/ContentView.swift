@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import AlertToast
 
 struct ContentView: View {
     @ObservedObject private var model = ChuckModel()
@@ -19,8 +20,8 @@ struct ContentView: View {
                 .onDelete(perform: model.removeItems)
             }
             .navigationBarTitle(Text("Chuck Norris Facts"))
-            .alert(isPresented: $model.showingAlert) {
-                Alert(title: Text(model.alertTitle), message: Text(model.alertMessage), dismissButton: .default(Text("OK")))
+            .toast(isPresenting: $model.showingAlert, duration: 0, tapToDismiss: true) {
+                AlertToast(type: .error(.red), title: model.alertTitle, subTitle: model.alertMessage)
             }
         }.ignoresSafeArea(.all)
         

@@ -114,7 +114,11 @@ class ChuckModel: ObservableObject {
     }
     //3.2 ViewModel dos facts
     @Published var searchedFacts = AllFacts()
-    @Published var likedFacts = AllFacts(restore: true)
+    @Published var likedFacts = AllFacts(restore: true) {
+        didSet {
+            likedFacts.storeResult()
+        }
+    }
     
     // 3.3 Ação que verifica se existe um item Fact em um array de Fact
     func isFactPresent(fact: AllFacts.Fact, allFacts: [AllFacts.Fact]) -> Bool {

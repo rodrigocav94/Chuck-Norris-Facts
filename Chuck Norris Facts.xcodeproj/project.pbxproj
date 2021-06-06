@@ -3,10 +3,11 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9F9B8DD4266D1F410094007C /* AlertToast in Frameworks */ = {isa = PBXBuildFile; productRef = 9F9B8DD3266D1F410094007C /* AlertToast */; };
 		9FD2CCC6266C322100E27BE8 /* Chuck_Norris_FactsApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FD2CCC5266C322100E27BE8 /* Chuck_Norris_FactsApp.swift */; };
 		9FD2CCC8266C322100E27BE8 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FD2CCC7266C322100E27BE8 /* ContentView.swift */; };
 		9FD2CCCA266C322100E27BE8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9FD2CCC9266C322100E27BE8 /* Assets.xcassets */; };
@@ -58,6 +59,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9F9B8DD4266D1F410094007C /* AlertToast in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -155,6 +157,9 @@
 			dependencies = (
 			);
 			name = "Chuck Norris Facts";
+			packageProductDependencies = (
+				9F9B8DD3266D1F410094007C /* AlertToast */,
+			);
 			productName = "Chuck Norris Facts";
 			productReference = 9FD2CCC2266C322100E27BE8 /* Chuck Norris Facts.app */;
 			productType = "com.apple.product-type.application";
@@ -226,6 +231,9 @@
 				Base,
 			);
 			mainGroup = 9FD2CCB9266C322100E27BE8;
+			packageReferences = (
+				9F9B8DD2266D1F410094007C /* XCRemoteSwiftPackageReference "AlertToast" */,
+			);
 			productRefGroup = 9FD2CCC3266C322100E27BE8 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -592,6 +600,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		9F9B8DD2266D1F410094007C /* XCRemoteSwiftPackageReference "AlertToast" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/elai950/AlertToast.git";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		9F9B8DD3266D1F410094007C /* AlertToast */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 9F9B8DD2266D1F410094007C /* XCRemoteSwiftPackageReference "AlertToast" */;
+			productName = AlertToast;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 9FD2CCBA266C322100E27BE8 /* Project object */;
 }

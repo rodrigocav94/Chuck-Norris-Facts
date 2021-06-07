@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9F125C9E266E70D200481990 /* searchSample.json in Resources */ = {isa = PBXBuildFile; fileRef = 9F125C9D266E70D200481990 /* searchSample.json */; };
 		9F96BE95266DB67A009FE028 /* Moya in Frameworks */ = {isa = PBXBuildFile; productRef = 9F96BE94266DB67A009FE028 /* Moya */; };
 		9F96BE97266DB6D0009FE028 /* ChuckService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F96BE96266DB6D0009FE028 /* ChuckService.swift */; };
 		9F9B8DD4266D1F410094007C /* AlertToast in Frameworks */ = {isa = PBXBuildFile; productRef = 9F9B8DD3266D1F410094007C /* AlertToast */; };
@@ -39,6 +40,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		9F125C9D266E70D200481990 /* searchSample.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = searchSample.json; sourceTree = "<group>"; };
 		9F96BE96266DB6D0009FE028 /* ChuckService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChuckService.swift; sourceTree = "<group>"; };
 		9FD2CCC2266C322100E27BE8 /* Chuck Norris Facts.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Chuck Norris Facts.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		9FD2CCC5266C322100E27BE8 /* Chuck_Norris_FactsApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Chuck_Norris_FactsApp.swift; sourceTree = "<group>"; };
@@ -114,6 +116,7 @@
 				9FD2CCF4266C5B6F00E27BE8 /* CardView.swift */,
 				9FD2CCF0266C326600E27BE8 /* SearchNavigation.swift */,
 				9FD2CCC9266C322100E27BE8 /* Assets.xcassets */,
+				9F125C9D266E70D200481990 /* searchSample.json */,
 				9FD2CCCE266C322100E27BE8 /* Info.plist */,
 				9FD2CCCB266C322100E27BE8 /* Preview Content */,
 			);
@@ -257,6 +260,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9F125C9E266E70D200481990 /* searchSample.json in Resources */,
 				9FD2CCCD266C322100E27BE8 /* Preview Assets.xcassets in Resources */,
 				9FD2CCCA266C322100E27BE8 /* Assets.xcassets in Resources */,
 			);

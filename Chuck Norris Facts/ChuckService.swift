@@ -34,14 +34,19 @@ extension ChuckService: TargetType {
     var sampleData: Data {
         switch self {
         case .getCards:
-            return Data()
+            guard let url = Bundle.main.url(forResource: "searchSample", withExtension: "json"),
+                  let data = try? Data(contentsOf: url) else {
+                return Data()
+                
+            }
+            return data
         }
     }
     
     var task: Task {
         switch self {
         case .getCards(let keyword):
-            return .requestParameters(parameters: ["query" : keyword], encoding: URLEncoding.queryString)
+            return .requestParameters(parameters: ["query" : keyword], encoding: URLEncoding.default)
         }
     }
     

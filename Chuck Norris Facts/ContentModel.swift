@@ -15,12 +15,18 @@ class ChuckModel: ObservableObject {
     @Published var isSearching = false
     @Published var searchString = ""
     
-    let chuckProvider = MoyaProvider<ChuckService>()
+    let chuckProvider: MoyaProvider<ChuckService>
     
-    func search() {
+    func search(expectation: @escaping (Int) -> Void = {_ in }) {
         searchedFacts.result = []
         isSearching = true
-        chuckProvider.request(.getCards(keyword: searchString)) { (result) in
+        if self.searchString.count < 3 {
+            self.showingAlert = true
+            self.alertTitle = "Word is too short".uppercased()
+            self.alertMessage = "Try something with 3 to 120 letters"
+            return
+        }
+        chuckProvider.request(.getCards(keyword: searchString)) { result in
             switch result {
             case .success(let response):
                 if let decodedResponse = try? JSONDecoder().decode(AllFacts.self, from: response.data) {
@@ -31,6 +37,7 @@ class ChuckModel: ObservableObject {
                         self.alertTitle = "No result".uppercased()
                         self.alertMessage = "Try something different"
                     }
+                    expectation(self.searchedFacts.total)
                 }
             case .failure(let error):
                 print("Nenhum dado recebido: \(error.localizedDescription)")
@@ -111,5 +118,12 @@ class ChuckModel: ObservableObject {
     // 3.4 Ação que será executada quando o usuário deslizar sob um fato para remove-lo da sua lista de favoritos
     func removeItems(at offsets: IndexSet) {
         likedFacts.result.remove(atOffsets: offsets)
+    }
+    init(stubbing: Bool = false) {
+        if stubbing {
+            chuckProvider = MoyaProvider<ChuckService>(stubClosure: MoyaProvider.immediatelyStub)
+        } else {
+            chuckProvider = MoyaProvider<ChuckService>()
+        }
     }
 }

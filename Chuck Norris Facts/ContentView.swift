@@ -12,7 +12,7 @@ struct ContentView: View {
     @ObservedObject private var model = ChuckModel()
     var body: some View {
         
-        SearchNavigation(text: $model.searchString, search: model.search, cancel: model.cancel) {
+        SearchNavigation(text: $model.searchString, search: { model.search() }, cancel: model.cancel) {
             List {
                 ForEach(model.isSearching ? model.searchedFacts.result : model.likedFacts.result) { shockingFact in
                     Card(model: model, shockingFact: shockingFact, liked: model.isFactPresent(fact: shockingFact, allFacts: model.likedFacts.result))

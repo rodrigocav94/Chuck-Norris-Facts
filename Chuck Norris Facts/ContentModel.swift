@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Moya
 
 class ChuckModel: ObservableObject {
     // 1. CONFIGURAÇÕES DA BUSCA DA BARRA //
@@ -14,51 +15,33 @@ class ChuckModel: ObservableObject {
     @Published var isSearching = false
     @Published var searchString = ""
     
-    // 1.2. Método para buscar
+    let chuckProvider = MoyaProvider<ChuckService>()
+    
     func search() {
         searchedFacts.result = []
         isSearching = true
-        // 1.2. Etapa 1: definir o URL e codificar espaços
-        guard let url = URL(string: "https://api.chucknorris.io/jokes/search?query=\(searchString)".addingPercentEncoding(withAllowedCharacters: NSCharacterSet.urlQueryAllowed)!) else {
-            print("URL Inválido")
-            showingAlert = true
-            alertTitle = "Error".uppercased()
-            alertMessage = "Invalid URL"
-            return
-        }
-        // 1.2. Etapa 2: transferir o URL para um URLRequest
-        let request = URLRequest(url: url)
-        
-        // 1.2. Etapa 3: criar e começar uma tarefa de a partir do URL request.
-        URLSession.shared.dataTask(with: request) { data, response, error in
-            
-            // 1.2. Etapa 4 - Sucesso: Utilizar o resultado da tarefa
-            if let data = data {
-                if let decodedResponse = try? JSONDecoder().decode(AllFacts.self, from: data) {
-                    // 1.2. Etapa 4 parte 1: Levar para o main thread
-                    DispatchQueue.main.async {
-                        if decodedResponse.total == 0 {
-                            self.showingAlert = true
-                            self.alertTitle = "No result".uppercased()
-                            self.alertMessage = "Try something different"
-                        }
-                        // 1.2. Etapa 4 parte 2: Atualizar a UI
-                        self.searchedFacts = decodedResponse
+        chuckProvider.request(.getCards(keyword: searchString)) { (result) in
+            switch result {
+            case .success(let response):
+                if let decodedResponse = try? JSONDecoder().decode(AllFacts.self, from: response.data) {
+                    self.searchedFacts = decodedResponse
+                    
+                    if decodedResponse.total == 0 {
+                        self.showingAlert = true
+                        self.alertTitle = "No result".uppercased()
+                        self.alertMessage = "Try something different"
                     }
-                    // 1.2. Etapa 4 parte 3: Retornar se tudo der certo
-                    return
                 }
-            }
-            
-            // 1.2. Etapa 4 - Falha: Gerar um alerta se houver falhado
-            print("Nenhum dado recebido: \(error?.localizedDescription ?? "Erro desconhecido")")
-            DispatchQueue.main.async {
+            case .failure(let error):
+                print("Nenhum dado recebido: \(error.localizedDescription)")
                 self.showingAlert = true
                 self.alertTitle = "Fetch failed".uppercased()
-                self.alertMessage = "\(error?.localizedDescription ?? "Unknown error")"
+                self.alertMessage = "\(error.localizedDescription)"
             }
-        }.resume()
+        }
     }
+    
+    
     
     // 1.3. Método cancelar busca
     func cancel() {

@@ -17,6 +17,7 @@ class ChuckModel: ObservableObject {
     
     let chuckProvider: MoyaProvider<ChuckService>
     
+    // 1.2. Método buscar
     func search(expectation: @escaping (Int) -> Void = {_ in }) {
         searchedFacts.result = []
         isSearching = true

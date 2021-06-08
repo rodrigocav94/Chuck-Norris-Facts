@@ -13,6 +13,8 @@ struct Card: View {
     @State var liked = false {
         didSet { tapHeart() }
     }
+    @State var heartButtonSize: CGFloat = 1
+    @State var shareButtonSize: CGFloat = 1
     
     var body: some View {
         VStack(alignment:.leading) {
@@ -41,13 +43,22 @@ struct Card: View {
                 Spacer()
                 Image(systemName: liked ? "heart.fill" : "heart")
                     .foregroundColor(liked ? .red : .secondary)
-                    .padding(.horizontal)
-                    .onTapGesture(perform: { liked.toggle() })
                     .font(.system(size: 20, weight: .semibold))
+                    .scaleEffect(heartButtonSize)
+                    .onTapGesture(perform: { liked.toggle() })
+                    .padding(.horizontal)
+                
                 Image(systemName: "square.and.arrow.up")
                     .foregroundColor(.secondary)
-                    .onTapGesture(perform: shareSheet)
                     .font(.system(size: 20, weight: .semibold))
+                    .scaleEffect(shareButtonSize)
+                    .onTapGesture(perform: {
+                        withAnimation(.default.repeatCount(2, autoreverses: true)) {
+                            shareButtonSize = 1.4
+                        }
+                        shareButtonSize = 1
+                        shareSheet()
+                    })
             }
             .padding(.vertical)
         }
@@ -63,6 +74,11 @@ struct Card: View {
             // Adiciona o fato à lista de favoritos e anima o botão
             if model.likedFacts.result.firstIndex(where: {$0.id == shockingFact.id}) == nil {
                 model.likedFacts.result.append(shockingFact)
+                
+                withAnimation(.default.repeatCount(2, autoreverses: true)) {
+                    heartButtonSize = 1.4
+                }
+                heartButtonSize = 1
             }
 
         } else {

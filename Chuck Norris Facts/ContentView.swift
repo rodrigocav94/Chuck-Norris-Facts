@@ -19,6 +19,7 @@ struct ContentView: View {
                 }
                 .onDelete(perform: model.removeItems)
             }
+            .animation(.default)
             .navigationBarTitle(Text("Chuck Norris Facts"))
             .toast(isPresenting: $model.showingAlert, duration: 0, tapToDismiss: true) {
                 AlertToast(type: .error(.red), title: model.alertTitle, subTitle: model.alertMessage)

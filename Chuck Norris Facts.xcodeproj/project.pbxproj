@@ -110,9 +110,9 @@
 			isa = PBXGroup;
 			children = (
 				9FD2CCC5266C322100E27BE8 /* Chuck_Norris_FactsApp.swift */,
-				9FD2CCC7266C322100E27BE8 /* ContentView.swift */,
 				9FD2CCF2266C350D00E27BE8 /* ContentModel.swift */,
 				9F96BE96266DB6D0009FE028 /* ChuckService.swift */,
+				9FD2CCC7266C322100E27BE8 /* ContentView.swift */,
 				9FD2CCF4266C5B6F00E27BE8 /* CardView.swift */,
 				9FD2CCF0266C326600E27BE8 /* SearchNavigation.swift */,
 				9FD2CCC9266C322100E27BE8 /* Assets.xcassets */,

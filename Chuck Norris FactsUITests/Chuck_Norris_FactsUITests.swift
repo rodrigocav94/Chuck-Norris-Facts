@@ -45,6 +45,20 @@ class Chuck_Norris_FactsUITests: XCTestCase {
         XCTAssertEqual(table.count, 18, "Deveria haver 18 resultados para a busca")
     }
     
+    func testShareSheet() throws {
+        let app = XCUIApplication()
+        let searchField = app.searchFields.element
+        let table = app.tables.cells
+        let messageButton = app.collectionViews.cells["Messages"].children(matching: .other).element
+        
+        app.launch()
+        searchField.tap()
+        searchField.typeText("red\n")
+        XCTAssertEqual(table.element(boundBy: 0).waitForExistence(timeout: 5), true, "A busca não obteve sucesso")
+        table.element(boundBy: 0).images["Share"].tap()
+        XCTAssertEqual(messageButton.exists, true, "A share sheet deveria estar presente")
+    }
+    
     func testUnsuccessfulSearching() throws {
         let app = XCUIApplication()
         let searchField = app.searchFields.element
@@ -68,7 +82,7 @@ class Chuck_Norris_FactsUITests: XCTestCase {
                 while !blackEyedPeasFact.element(boundBy: fact).isHittable {
                     app.swipeUp(velocity: 1000)
                 }
-                blackEyedPeasFact.element(boundBy: fact).images["Love"].tap()
+                blackEyedPeasFact.element(boundBy: fact).images.element(boundBy: 0).tap()
                 while !searchField.isHittable {
                     app.swipeDown(velocity: 5000)
                 }
@@ -78,7 +92,7 @@ class Chuck_Norris_FactsUITests: XCTestCase {
         searchField.tap()
         searchField.typeText("black eyed peas\n")
         XCTAssertEqual(blackEyedPeasFact.element.waitForExistence(timeout: 10), true, "Deveria haver pelo menos um fato de The black eyed peas")
-        blackEyedPeasFact.element(boundBy: 0).images["Love"].tap()
+        blackEyedPeasFact.element(boundBy: 0).images.element(boundBy: 0).tap()
         cancelButton.tap()
         XCTAssertEqual(blackEyedPeasFact.count, 1, "O fato deveria estar na lista de favoritos")
     }

@@ -7,6 +7,17 @@
 
 import XCTest
 
+extension XCUIApplication {
+   func filterCells(containing labels: String...) -> XCUIElementQuery {
+        var cells = self.cells
+
+        for label in labels {
+            cells = cells.containing(NSPredicate(format: "label CONTAINS %@", label))
+        }
+        return cells
+    }
+}
+
 class Chuck_Norris_FactsUITests: XCTestCase {
 
     override func setUpWithError() throws {
@@ -22,16 +33,54 @@ class Chuck_Norris_FactsUITests: XCTestCase {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
     }
 
-    func testSearching() throws {
-        // UI tests must launch the application that they test.
+    func testSuccessfulSearching() throws {
         let app = XCUIApplication()
+        let searchField = app.searchFields.element
+        let table = app.tables.cells
+        
         app.launch()
-        let searchBar = app.searchFields["Search"]
-        searchBar.tap()
-        searchBar.typeText("blue\n")
-
-        // Use recording to get started writing UI tests.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
+        searchField.tap()
+        searchField.typeText("blue\n")
+        XCTAssertEqual(table.element(boundBy: 17).waitForExistence(timeout: 5), true, "O 18º resultado não existe")
+        XCTAssertEqual(table.count, 18, "Deveria haver 18 resultados para a busca")
+    }
+    
+    func testUnsuccessfulSearching() throws {
+        let app = XCUIApplication()
+        let searchField = app.searchFields.element
+        let aleartToast = app.children(matching: .window).element(boundBy: 0).children(matching: .other).element
+        
+        app.launch()
+        searchField.tap()
+        searchField.typeText("rodrigo\n")
+        XCTAssertEqual(aleartToast.waitForExistence(timeout: 5), true, "Deveria haver um Alert Toast")
+    }
+    
+    func testLikingAndDislikingAFact() throws {
+        let app = XCUIApplication()
+        let searchField = app.searchFields.element
+        let cancelButton = app.navigationBars["Chuck Norris Facts"].buttons["Cancel"]
+        let blackEyedPeasFact = app.filterCells(containing: "Black Eyed Peas")
+        
+        app.launch()
+        if blackEyedPeasFact.count > 0 {
+            for fact in 0..<blackEyedPeasFact.count {
+                while !blackEyedPeasFact.element(boundBy: fact).isHittable {
+                    app.swipeUp(velocity: 1000)
+                }
+                blackEyedPeasFact.element(boundBy: fact).images["Love"].tap()
+                while !searchField.isHittable {
+                    app.swipeDown(velocity: 5000)
+                }
+            }
+        }
+        XCTAssertEqual(blackEyedPeasFact.count, 0, "Nenhum fato de Black Eyed Peas deveria estar mais na lista de favoritos")
+        searchField.tap()
+        searchField.typeText("black eyed peas\n")
+        XCTAssertEqual(blackEyedPeasFact.element.waitForExistence(timeout: 10), true, "Deveria haver pelo menos um fato de The black eyed peas")
+        blackEyedPeasFact.element(boundBy: 0).images["Love"].tap()
+        cancelButton.tap()
+        XCTAssertEqual(blackEyedPeasFact.count, 1, "O fato deveria estar na lista de favoritos")
     }
 
     func testLaunchPerformance() throws {
